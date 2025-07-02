@@ -10,17 +10,32 @@ export default function MeditarScreen() {
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
   async function startMeditation() {
-    const { sound } = await Audio.Sound.createAsync(
-      require('../assets/sounds/natureza1.mp3'),
-      { shouldPlay: true, isLooping: true }
-    );
-    setSound(sound);
-    const start = Date.now();
-    setStartTime(start);
-    const newTimer = setInterval(() => {
-      setElapsed(Math.floor((Date.now() - start) / 1000));
-    }, 1000);
-    setTimer(newTimer);
+    try {
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+        staysActiveInBackground: false,
+        allowsRecordingIOS: false,
+        interruptionModeIOS: 1,
+        shouldDuckAndroid: true,
+        interruptionModeAndroid: 1,
+      });
+
+      const { sound } = await Audio.Sound.createAsync(
+        require('../assets/sounds/natureza1.mp3'),
+        { shouldPlay: true, isLooping: true }
+      );
+      await sound.setVolumeAsync(1.0);
+      setSound(sound);
+
+      const start = Date.now();
+      setStartTime(start);
+      const newTimer = setInterval(() => {
+        setElapsed(Math.floor((Date.now() - start) / 1000));
+      }, 1000);
+      setTimer(newTimer);
+    } catch (error) {
+      console.error('Erro ao iniciar a meditação:', error);
+    }
   }
 
   async function stopMeditation() {
