@@ -12,7 +12,7 @@ export default function MeditarScreen() {
   async function startMeditation() {
     const { sound } = await Audio.Sound.createAsync(
       require('../assets/sounds/natureza1.mp3'),
-      { shouldPlay: true }
+      { shouldPlay: true, isLooping: true }
     );
     setSound(sound);
     const start = Date.now();
@@ -24,17 +24,37 @@ export default function MeditarScreen() {
   }
 
   async function stopMeditation() {
-    if (sound) await sound.stopAsync();
-    if (timer) clearInterval(timer);
-    await saveSessionTime(elapsed); // salva tempo da sessão
+    if (sound) {
+      await sound.stopAsync();
+      await sound.unloadAsync();
+      setSound(null);
+    }
+    if (timer) {
+      clearInterval(timer);
+      setTimer(null);
+    }
+    if (elapsed > 0) {
+      await saveSessionTime(elapsed);
+    }
     setElapsed(0);
   }
+
+  useEffect(() => {
+    return () => {
+      if (sound) {
+        sound.unloadAsync();
+      }
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
       <Text style={styles.timer}>{elapsed}s</Text>
-      <Button title="Iniciar Meditação" onPress={startMeditation} />
-      <Button title="Encerrar Meditação" onPress={stopMeditation} />
+      <Button title="Iniciar Meditação" onPress={startMeditation} disabled={!!sound} />
+      <Button title="Encerrar Meditação" onPress={stopMeditation} disabled={!sound} />
     </View>
   );
 }
