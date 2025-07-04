@@ -1,0 +1,4 @@
+<key>NSBluetoothAlwaysUsageDescription</key>
+<string>Este app utiliza Bluetooth para conectar com dispositivos de áudio.</string>
+<key>NSBluetoothPeripheralUsageDescription</key>
+<string>Necessário para parear com dispositivos de áudio relaxante.</string>
