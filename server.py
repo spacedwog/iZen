@@ -18,4 +18,4 @@ def get_audios():
 if __name__ == '__main__':
     # Importa waitress aqui para rodar no Windows
     from waitress import serve
-    serve(app, host='0.0.0.0', port=5000)
+    serve(app, host='192.168.15.8', port=3000)
