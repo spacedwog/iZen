@@ -12,7 +12,7 @@ export default function AudioScreen() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch('http://<IP-DO-SERVIDOR>:5000/audios')
+    fetch('http://0.0.0.0:5000/audios')
       .then(response => response.json())
       .then(data => {
         setAudios(data);
