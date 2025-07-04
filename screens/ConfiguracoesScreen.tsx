@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
+import { syncWithServer } from '../utils/storage'; // ajuste caminho conforme estrutura
 
 type DadosMeditacao = {
   dia: string;
@@ -11,10 +12,15 @@ export default function ConfiguracoesScreen() {
   const [dados, setDados] = useState<DadosMeditacao[]>([]);
 
   useEffect(() => {
-    fetch('http://192.168.15.8:5000/meditacao')
-      .then(response => response.json())
-      .then(data => setDados(data))
-      .catch(error => console.error('Erro ao buscar dados:', error));
+    async function carregarDados() {
+      await syncWithServer();
+      fetch('http://<SEU_IP_LOCAL>:5000/meditacao')
+        .then((response) => response.json())
+        .then((data) => setDados(data))
+        .catch((error) => console.error('Erro:', error));
+    }
+
+    carregarDados();
   }, []);
 
   const dias = dados.map(d => d.dia);
@@ -39,7 +45,6 @@ export default function ConfiguracoesScreen() {
             color: (opacity = 1) => `rgba(0, 150, 136, ${opacity})`,
             labelColor: () => '#00695c',
             style: { borderRadius: 16 },
-            propsForDots: { r: '6', strokeWidth: '2', stroke: '#004d40' },
           }}
           style={styles.chart} yAxisLabel={''}        />
       )}
