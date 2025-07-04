@@ -11,7 +11,7 @@ export default function ConfiguracoesScreen() {
   const [dados, setDados] = useState<DadosMeditacao[]>([]);
 
   useEffect(() => {
-    fetch('http://<SEU_IP_LOCAL>:5000/meditacao')
+    fetch('http://192.168.15.8:5000/meditacao')
       .then(response => response.json())
       .then(data => setDados(data))
       .catch(error => console.error('Erro ao buscar dados:', error));

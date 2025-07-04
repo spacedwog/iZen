@@ -13,3 +13,12 @@ export async function getAllMeditationData() {
   const data = await AsyncStorage.multiGet(filteredKeys);
   return data.map(([date, value]) => ({ date, seconds: Number(value) }));
 }
+
+export async function syncWithServer() {
+  const data = await getAllMeditationData();
+  await fetch('http://192.168.15.8:5000/meditacao', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+}
