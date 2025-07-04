@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MeditarScreen from '../screens/MeditarScreen';
-import HistoricoScreen from '../screens/HistoricoScreen';
-import AudioScreen from '../screens/AudioScreen';
-import ConfiguracoesScreen from '../screens/ConfiguracoesScreen';
+import MeditarScreen from '../screens/MeditarScreen.tsx';
+import HistoricoScreen from '../screens/HistoricoScreen.tsx';
+import AudioScreen from '../screens/AudioScreen.tsx';
+import ConfiguracoesScreen from '../screens/ConfiguracoesScreen.tsx';
 
 const Tab = createBottomTabNavigator();
 
