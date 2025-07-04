@@ -1,7 +1,7 @@
 {
   "name": "izen",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "./backend-ts/server.ts",
   "type": "module",
   "scripts": {
     "start": "npx ts-node runPython.ts && expo start",
