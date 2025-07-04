@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
-import { syncWithServer } from '../utils/storage'; // ajuste caminho conforme estrutura
+import { syncWithServer } from '../utils/storage.ts'; // ajuste caminho conforme estrutura
 
 type DadosMeditacao = {
   dia: string;
@@ -14,7 +14,7 @@ export default function ConfiguracoesScreen() {
   useEffect(() => {
     async function carregarDados() {
       await syncWithServer();
-      fetch('http://<SEU_IP_LOCAL>:5000/meditacao')
+      fetch('http://192.168.15.8:5000/meditacao')
         .then((response) => response.json())
         .then((data) => setDados(data))
         .catch((error) => console.error('Erro:', error));
