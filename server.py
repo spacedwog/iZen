@@ -8,7 +8,7 @@ CORS(app)
 dados_meditacao = {}  # chave: "YYYY-MM-DD", valor: total em segundos
 
 audio_data = [
-    {"id": 1, "title": "Chuva Suave", "url": "./assets/sounds/natureza1.mp3"},
+    {"id": 1, "title": "Natureza1", "url": "./assets/sounds/natureza1.mp3"},
 ]
 
 # -------------------- ROTAS DE MEDITAÇÃO --------------------
