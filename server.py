@@ -5,9 +5,9 @@ app = Flask(__name__)
 CORS(app)  # Permite requisições do React Native
 
 audio_data = [
-    {"id": 1, "title": "Chuva Suave", "url": "http://example.com/audio/chuva.mp3"},
-    {"id": 2, "title": "Floresta Zen", "url": "http://example.com/audio/floresta.mp3"},
-    {"id": 3, "title": "Oceano Pacífico", "url": "http://example.com/audio/oceano.mp3"},
+    {"id": 1, "title": "Koto No Ha", "url": "https://www.letras.mus.br/kokia/koto-no-ha/"},
+    {"id": 2, "title": "Nandemonaiya", "url": "https://www.letras.mus.br/radwimps/nandemonaiya/"},
+    {"id": 3, "title": "Sparkle", "url": "https://www.letras.mus.br/radwimps/sparkle/"},
 ]
 
 @app.route('/audios', methods=['GET', 'POST'])
