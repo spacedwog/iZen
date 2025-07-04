@@ -10,6 +10,19 @@ audio_data = [
     {"id": 3, "title": "Sparkle", "url": "https://www.letras.mus.br/radwimps/sparkle/"},
 ]
 
+@app.route('/meditacao')
+def meditacao():
+    dados = [
+        {"dia": "Seg", "minutos": 15},
+        {"dia": "Ter", "minutos": 20},
+        {"dia": "Qua", "minutos": 10},
+        {"dia": "Qui", "minutos": 25},
+        {"dia": "Sex", "minutos": 5},
+        {"dia": "Sab", "minutos": 30},
+        {"dia": "Dom", "minutos": 0},
+    ]
+    return jsonify(dados)
+
 @app.route('/audios', methods=['GET', 'POST'])
 def manage_audios():
     if request.method == 'POST':
