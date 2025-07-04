@@ -1,72 +1,52 @@
-// AudioScreen.tsx
-
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, PermissionsAndroid, Platform } from 'react-native';
-import { BleManager } from 'react-native-ble-plx';
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 
-const manager = new BleManager();
+type Audio = {
+  id: number;
+  title: string;
+  url: string;
+};
 
 export default function AudioScreen() {
-  const [devices, setDevices] = useState<any[]>([]);
+  const [audios, setAudios] = useState<Audio[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (Platform.OS === 'ios') {
-      scanForDevices();
-    } else {
-      requestPermissions();
-    }
-
-    return () => {
-      manager.destroy();
-    };
+    fetch('http://<IP-DO-SERVIDOR>:5000/audios')
+      .then(response => response.json())
+      .then(data => {
+        setAudios(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Erro ao buscar áudios:', error);
+        setLoading(false);
+      });
   }, []);
-
-  const requestPermissions = async () => {
-    const granted = await PermissionsAndroid.requestMultiple([
-      PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-      PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    ]);
-    if (
-      granted['android.permission.BLUETOOTH_SCAN'] === PermissionsAndroid.RESULTS.GRANTED
-    ) {
-      scanForDevices();
-    }
-  };
-
-  const scanForDevices = () => {
-    setDevices([]);
-    manager.startDeviceScan(null, null, (error: any, device: { id: any; }) => {
-      if (error) {
-        console.warn(error);
-        return;
-      }
-
-      if (device && !devices.find((d) => d.id === device.id)) {
-        setDevices((prev) => [...prev, device]);
-      }
-    });
-
-    // Para parar a busca após 10 segundos
-    setTimeout(() => manager.stopDeviceScan(), 10000);
-  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Dispositivos Bluetooth disponíveis:</Text>
-      <FlatList
-        data={devices}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Text style={styles.device}>{item.name || 'Sem nome'} - {item.id}</Text>
-        )}
-      />
+      <Text style={styles.header}>Áudios Relaxantes</Text>
+      {loading ? (
+        <ActivityIndicator size="large" color="#00f" />
+      ) : (
+        <FlatList
+          data={audios}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.audioItem}>
+              <Text style={styles.audioText}>{item.title}</Text>
+            </View>
+          )}
+        />
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, paddingTop: 60 },
-  title: { fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
-  device: { marginVertical: 4, fontSize: 14 },
+  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 10, textAlign: 'center' },
+  audioItem: { padding: 15, borderBottomWidth: 1, borderBottomColor: '#ccc' },
+  audioText: { fontSize: 18 },
 });

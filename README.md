@@ -6,7 +6,8 @@ O iZen é um app de meditação com foco em relaxamento e mindfulness. Ele combi
 
 ## 📱 App (Frontend - React Native)
 
-### Tecnologias:
+### Tecnologias
+
 - React Native (Expo)
 - TypeScript
 - React Navigation
@@ -14,13 +15,15 @@ O iZen é um app de meditação com foco em relaxamento e mindfulness. Ele combi
 - Expo AV
 - ChartKit (histórico visual)
 
-### Funcionalidades:
+### Funcionalidades
+
 - Iniciar meditação com timer e som ambiente
 - Histórico de meditações (dia, semana, mês)
 - Tela de áudios relaxantes
 - Configurações básicas (em construção)
 
-### Rodar o app:
+### Rodar o app
+
 ```bash
 cd app
 npm install
